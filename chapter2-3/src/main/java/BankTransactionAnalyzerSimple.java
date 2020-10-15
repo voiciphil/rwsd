@@ -13,26 +13,34 @@ public class BankTransactionAnalyzerSimple {
 
     public static void main(String[] args) throws IOException {
 
+        final BankStatementCsvParser parser = new BankStatementCsvParser();
+
         final Path path = Paths.get(RESOURCES);
         final List<String> lines = Files.readAllLines(path);
-        double total = 0d;
-        for (final String line : lines) {
-            final String[] columns = line.split(",");
-            final double amount = Double.parseDouble(columns[1]);
-            total += amount;
-        }
-        System.out.println("The total for all transactions is " + total);
+        final List<BankTransaction> bankTransactions = parser.parseLinesFromCsv(lines);
 
-        total = 0d;
-        final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        for (final String line : lines) {
-            final String[] columns = line.split(",");
-            final LocalDate date = LocalDate.parse(columns[0], DATE_PATTERN);
-            if (date.getMonth() == Month.JANUARY) {
-                final double amount = Double.parseDouble(columns[1]);
-                total += amount;
+        System.out.println("The total for all transactions is "
+            + calculateTotalAmount(bankTransactions));
+        System.out.println("The total for all transactions in January is "
+            + selectInMonth(bankTransactions, Month.JANUARY));
+    }
+
+    public static double calculateTotalAmount(final List<BankTransaction> bankTransactions) {
+        double total = 0d;
+        for (final BankTransaction bankTransaction : bankTransactions) {
+            total += bankTransaction.getAmount();
+        }
+        return total;
+    }
+
+    public static double selectInMonth(final List<BankTransaction> bankTransactions,
+        final Month month) {
+        double total = 0d;
+        for (final BankTransaction bankTransaction : bankTransactions) {
+            if (bankTransaction.getDate().getMonth().equals(month)) {
+                total += bankTransaction.getAmount();
             }
         }
-        System.out.println("The total for all transactions in January is " + total);
+        return total;
     }
 }
