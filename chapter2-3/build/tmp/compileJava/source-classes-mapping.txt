@@ -1,6 +1,0 @@
-BankTransaction.java
- BankTransaction
-BankStatementCsvParser.java
- BankStatementCsvParser
-BankTransactionAnalyzerSimple.java
- BankTransactionAnalyzerSimple

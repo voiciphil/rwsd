@@ -19,28 +19,11 @@ public class BankTransactionAnalyzerSimple {
         final List<String> lines = Files.readAllLines(path);
         final List<BankTransaction> bankTransactions = parser.parseLinesFromCsv(lines);
 
+        final BankStatementProcessor processor = new BankStatementProcessor(bankTransactions);
+
         System.out.println("The total for all transactions is "
-            + calculateTotalAmount(bankTransactions));
+            + processor.calculateTotalAmount());
         System.out.println("The total for all transactions in January is "
-            + selectInMonth(bankTransactions, Month.JANUARY));
-    }
-
-    public static double calculateTotalAmount(final List<BankTransaction> bankTransactions) {
-        double total = 0d;
-        for (final BankTransaction bankTransaction : bankTransactions) {
-            total += bankTransaction.getAmount();
-        }
-        return total;
-    }
-
-    public static double selectInMonth(final List<BankTransaction> bankTransactions,
-        final Month month) {
-        double total = 0d;
-        for (final BankTransaction bankTransaction : bankTransactions) {
-            if (bankTransaction.getDate().getMonth().equals(month)) {
-                total += bankTransaction.getAmount();
-            }
-        }
-        return total;
+            + processor.calculatoTotalInMonth(Month.JANUARY));
     }
 }
