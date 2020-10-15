@@ -2,22 +2,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.Month;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class BankTransactionAnalyzerSimple {
+public class BankStatementAnalyzer {
 
-    private static final String RESOURCES = "src/main/resources/transactions.csv";
+    private static final String RESOURCES = "src/main/resources/";
 
-    public static void main(String[] args) throws IOException {
-
-        final BankStatementCsvParser parser = new BankStatementCsvParser();
-
-        final Path path = Paths.get(RESOURCES);
+    public void analyze(final String fileName, final BankStatementParser parser)
+        throws IOException {
+        final Path path = Paths.get(RESOURCES, fileName);
         final List<String> lines = Files.readAllLines(path);
-        final List<BankTransaction> bankTransactions = parser.parseLinesFromCsv(lines);
+        final List<BankTransaction> bankTransactions = parser.parseLinesFrom(lines);
 
         final BankStatementProcessor processor = new BankStatementProcessor(bankTransactions);
 
