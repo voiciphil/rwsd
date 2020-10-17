@@ -21,9 +21,12 @@ public class BankStatementAnalyzer {
             + processor.calculateTotalAmount());
         System.out.println("The total for all transactions in January is "
             + processor.calculateTotalInMonth(Month.JANUARY));
-        for (BankTransaction bankTransaction : processor.findTransactionsInMonth(Month.JANUARY)) {
-            System.out.println(bankTransaction.getDescription() +
-                " " + bankTransaction.getAmount());
+
+        final List<BankTransaction> transactionsInJanuary
+            = processor.findTransactions(
+                bankTransaction -> bankTransaction.getDate().getMonth().equals(Month.JANUARY));
+        for (BankTransaction bankTransaction : transactionsInJanuary) {
+            System.out.println(bankTransaction);
         }
     }
 }
