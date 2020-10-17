@@ -20,6 +20,10 @@ public class BankStatementAnalyzer {
         System.out.println("The total for all transactions is "
             + processor.calculateTotalAmount());
         System.out.println("The total for all transactions in January is "
-            + processor.calculatoTotalInMonth(Month.JANUARY));
+            + processor.calculateTotalInMonth(Month.JANUARY));
+        for (BankTransaction bankTransaction : processor.findTransactionsInMonth(Month.JANUARY)) {
+            System.out.println(bankTransaction.getDescription() +
+                " " + bankTransaction.getAmount());
+        }
     }
 }
